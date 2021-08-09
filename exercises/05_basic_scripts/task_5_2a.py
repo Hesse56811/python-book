@@ -49,3 +49,21 @@ bin_ip = "00001010000000010000000111000011"
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+ip = input('Enter ip: ')
+print('Network:')
+net = (ip.split('/')[0]).split('.')
+mask = ip.split('/')[1]
+
+b_mask = '1' * int(mask) + '0' * (32-int(mask))
+m = [b_mask[0:8], b_mask[8:16], b_mask[16:24], b_mask[24:]]
+
+adr = [int(net[0]) & int(m[0],2), int(net[1]) & int(m[1], 2), int(net[2]) & int(m[2], 2), int(net[3]) & int(m[3], 2)]
+
+print("{:<10}{:<10}{:<10}{:<10}".format(adr[0], adr[1], adr[2], adr[3]))
+print("{:08b}  {:08b}  {:08b}  {:08b}".format(adr[0], adr[1], adr[2], adr[3]))
+
+print('\nMask:')
+
+print('/' + mask)
+print("{:<10}{:<10}{:<10}{:<10}".format(int(m[0], 2), int(m[1], 2), int(m[2], 2), int(m[3], 2)))
+print("{:10}{:10}{:10}{:10}".format(m[0], m[1], m[2], m[3]))

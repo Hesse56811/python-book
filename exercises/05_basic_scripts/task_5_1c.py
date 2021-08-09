@@ -49,3 +49,9 @@ london_co = {
         "routing": True,
     },
 }
+
+dev = input('Enter device: ')
+param = input('Enter parameter (' + ', '.join(list(london_co[dev].keys())) + '): ')
+error = 'Такого параметра нет'
+
+print(london_co[dev].get(param, error))
