@@ -16,4 +16,20 @@
 
 """
 
+from sys import argv
+
+filename = argv[1]
+
 ignore = ["duplex", "alias", "configuration"]
+ignore.append("!")
+
+with open(filename) as f:
+    for line in f:
+        for ign in ignore:
+            if not ign in line:
+               continue
+            else:
+                break
+        else:
+            print(line.rstrip())
+
