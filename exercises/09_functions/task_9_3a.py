@@ -25,3 +25,28 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+def get_int_vlan_map(config_filename):
+    access = {}
+    trunk = dict()
+    a = False
+    with open(config_filename) as f:
+        for line in f:
+            if 'Fast' in line:
+                port = line.rstrip().split(' ')[1]
+                a = True
+            if 'trunk allowed' in line:
+                ls = []
+                for i in line.rstrip().split(' ')[5:]:
+                    for v in i.split(','):
+                        ls.append(int(v))
+                a = False
+                trunk[port] = ls
+            if 'access vlan' in line:
+                a = False
+                access[port] = int(line.rstrip().split(' ')[4])
+            elif 'duplex auto' in line and a:
+                access[port] = 1
+
+    result = (access, trunk)
+    return result

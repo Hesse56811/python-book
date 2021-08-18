@@ -23,3 +23,22 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+def get_int_vlan_map(config_filename):
+    access = {}
+    trunk = dict()
+    with open(config_filename) as f:
+        for line in f:
+            if 'Fast' in line:
+                port = line.rstrip().split(' ')[1]
+            if 'access vlan' in line:
+                access[port] = int(line.rstrip().split(' ')[4])
+            if 'trunk allowed' in line:
+                ls = []
+                for i in line.rstrip().split(' ')[5:]:
+                    for a in i.split(','):
+                        ls.append(int(a))
+                trunk[port] = ls
+
+    result = (access, trunk)
+    return result
