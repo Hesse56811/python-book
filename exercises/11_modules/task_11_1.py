@@ -36,15 +36,19 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 
 
 def parse_cdp_neighbors(command_output):
-    """
-    Тут мы передаем вывод команды одной строкой потому что именно в таком виде будет
-    получен вывод команды с оборудования. Принимая как аргумент вывод команды,
-    вместо имени файла, мы делаем функцию более универсальной: она может работать
-    и с файлами и с выводом с оборудования.
-    Плюс учимся работать с таким выводом.
-    """
+    result = {}
+    string = command_output
+    a = string.split('>')[0].strip()
+    for line in string[string.find('Port') + 8: ].split('\n'):
+        if line == '':
+            break
+        device_id = line[:line.find(' ')]
+        local_int = line.split('        ')[1].split('         ')[0].replace(' ', '')
+        port_id = line[line.find(' ', -10): ].replace(' ', '')
+        result[(a, local_int)] = (device_id, port_id)
+    return result
 
 
 if __name__ == "__main__":
-    with open("sh_cdp_n_sw1.txt") as f:
+    with open("sh_cdp_n_r3.txt") as f:
         print(parse_cdp_neighbors(f.read()))
