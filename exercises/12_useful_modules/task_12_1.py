@@ -14,3 +14,20 @@
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+import subprocess
+
+
+def ping_ip_addresses(ip_address):
+    reach = []
+    unreach = []
+    for ip in ip_address:
+        if subprocess.call(['ping', '-c', '3', '-n', ip], stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0:
+            reach.append(ip)
+        else:
+            unreach.append(ip)
+    return reach, unreach
+
+
+if __name__ == '__main__':
+    print(ping_ip_addresses(["10.1.1.1", "8.8.8.8"]))
